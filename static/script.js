@@ -23,7 +23,7 @@ grid.addEventListener("click", async (event) => {
 grid.style.gridTemplateColumns = `repeat(${gridSize.width}, 1fr)`;
 
 function findBestGrid(n) {
-  let sqrtN = Math.floor(Math.sqrt(n));
+  const sqrtN = Math.floor(Math.sqrt(n));
   let a = sqrtN;
   let b = sqrtN;
 
