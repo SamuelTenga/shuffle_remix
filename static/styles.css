@@ -1,0 +1,25 @@
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 0;
+  margin: auto 10vw;
+  height: fit-content;
+  width: 80vw;
+}
+
+.track-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
