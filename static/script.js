@@ -37,5 +37,10 @@ function findBestGrid(n) {
   }
 
   console.log(a, b);
-  return { width: Math.max(a, b), height: Math.min(a, b) };
+
+  if(globalThis.innerWidth < globalThis.innerHeight) {
+    return { width: Math.min(a, b), height: Math.max(a, b) };
+  } else {
+    return { width: Math.max(a, b), height: Math.min(a, b) };
+  }
 }
