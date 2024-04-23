@@ -16,6 +16,8 @@ export default defineConfig({
           "user-modify-playback-state",
         ],
         mock: mock,
+        oauthClientId: Deno.env.get("oauthClientId") || "",
+        oauthClientSecret: Deno.env.get("oauthClientSecret") || "",
       },
     ),
   ],
