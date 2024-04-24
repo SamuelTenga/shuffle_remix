@@ -1,6 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { addTrackIfNotAlreadyQueuedAsFirst, getSavedTracks } from "../utils/spotify.ts";
-import { User } from "../../fresh_oauth2/oauth2Plugin.d.ts";
+import { User } from "https://raw.githubusercontent.com/RoeHH/fresh_oauth2/21c31455a31691a837ebe09fb91ac5f96d2de38d/oauth2Plugin.d.ts";
 
 interface Props {
   count: number;
