@@ -7,11 +7,10 @@ interface State {
 }
 
 export const handler = async (req: Request, ctx: FreshContext<State>): Promise<Response> => {
-  const tracks = await getSavedTracks(ctx.state.user.accessToken || "");
-  const track = tracks[(await req.json()).track];
-  console.log(track);
-  
-  await addTrackIfNotAlreadyQueuedAsFirst(ctx.state.user.accessToken || "", track.track.uri);
-  
+  const tracks = (await req.json()).tracks
+
+  for (const track of tracks.sort((_a:string, _b: string) => 0.5 - Math.random())) {
+    await addTrackIfNotAlreadyQueuedAsFirst(ctx.state.user.accessToken || "", track);
+  }
   return new Response(undefined, { status: 200, statusText: "OK" });
 };

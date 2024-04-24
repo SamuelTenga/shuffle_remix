@@ -33,9 +33,8 @@ export async function addTrackIfNotAlreadyQueuedAsFirst(access_token: string, tr
       Authorization: `Bearer ${access_token}`,
     },
   }).then((res) => res.json());
-  console.log(res.queue[0].uri, track_uri);
   
-  if (res.queue[0].uri !== track_uri) {
+  if (res.queue.length < 1 || res.queue[0].uri !== track_uri) {
     await addTrackToQueue(access_token, track_uri);
     console.log("Track added to queue");
   } else {
