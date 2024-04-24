@@ -1,5 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { User } from "../../../fresh_oauth2/oauth2Plugin.d.ts";
+import { User } from "https://raw.githubusercontent.com/RoeHH/fresh_oauth2/21c31455a31691a837ebe09fb91ac5f96d2de38d/providers/spotify.ts";
 import { addTrackIfNotAlreadyQueuedAsFirst, getSavedTracks } from "../../utils/spotify.ts";
 
 interface State {
