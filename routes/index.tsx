@@ -20,7 +20,7 @@ export const handler: Handlers<Props, State> = {
     //addTrackIfNotAlreadyQueuedAsFirst(ctx.state.user.accessToken || "", tracks[0].track.uri);
     
 
-    return ctx.render({count: 420, tracks: tracks});
+    return ctx.render({count: tracks.length, tracks: tracks});
   },
 };
 
@@ -30,7 +30,7 @@ export default function Home({data}: PageProps<Props>) {
   return (
     <>
     <div class="flex">
-        <div id="grid" class="grid">
+        <div id="grid" class="grid" data-track-count={data.count}>
           {data.tracks.map((track: any) => (<img id={track.track.uri} class="track-cover" src={track.track.album.images[1].url} alt={track.track.name} /> ))}
         </div>
     </div>
@@ -42,7 +42,8 @@ export default function Home({data}: PageProps<Props>) {
         </mask>
       </defs>
     </svg>
-    <script src="/script.js"></script>
+    <script src="/script.js">
+    </script>
     </>
   );
 }

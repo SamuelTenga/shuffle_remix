@@ -16,6 +16,8 @@ export async function getSavedTracks(access_token: string) {
         Authorization: `Bearer ${access_token}`,
       },
     }).then((res) => res.json());
+    console.log(res);
+    
     allTracks = [...allTracks, ...res.items];
     if (res.items.length < limit) {
       break;

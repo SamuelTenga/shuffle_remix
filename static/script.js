@@ -23,10 +23,13 @@ div.style.height = `${maskHeight}px`;
 div.style.mask = "url(#mask)";
 div.style.background = "black";
 div.style.opacity = "0.7";
-div.style.zIndex = "1000";
-document.body.appendChild(div);
+//div.style.zIndex = "1000";
+grid.appendChild(div);
 
-document.addEventListener("click", async (event) => {
+grid.addEventListener("click", async (event) => {
+
+  console.log("click");
+
   isFixed = !isFixed;
   document.body.style.cursor = isFixed ? "crosshair" : "none";
 
@@ -88,26 +91,9 @@ function doCircleAndRectangleOverlap(cx, cy, r, rx, ry, width, height) {
   return cornerDistanceSq <= r ** 2;
 }
 
-({
-  /*
-  const rect = grid.getBoundingClientRect();
+grid.addEventListener("wheel", (event) => {
 
-  const x = Math.floor((event.x - rect.left) / (rect.width / gridSize.width));
-  const y = Math.floor((event.y - rect.top) / (rect.height / gridSize.height));
-
-  console.log(x, y, x + y * gridSize.height);
-
-  await fetch("/api/play", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({track: x + y * gridSize.width}),
-  });
-  */
-});
-
-document.addEventListener("wheel", (event) => {
+  console.log("wheel");
   if (!isFixed) {
     const modifier = (event.wheelDelta < 0 ? -1 : 1) *
       (Number(maskCircle.style.r) < 620
@@ -120,7 +106,8 @@ document.addEventListener("wheel", (event) => {
   }
 });
 
-document.addEventListener("mousemove", (event) => {
+grid.addEventListener("mousemove", (event) => {
+  console.log("mousemove");
   if (!isFixed) {
     div.style.left = `${event.x - maskWidth / 2}px`;
     div.style.top = `${event.y - maskHeight / 2}px`;
@@ -142,7 +129,7 @@ function fitMask() {
 }
 
 function fitGrid() {
-  const n = grid.childElementCount;
+  const n = grid.getAttribute("data-track-count");
   const sqrtN = Math.floor(Math.sqrt(n));
   let a = sqrtN;
   let b = sqrtN;
@@ -163,6 +150,8 @@ function fitGrid() {
   }
   grid.style.display = "grid";
   grid.style.gridTemplateColumns = `repeat(${gridSize.width}, 1fr)`;
+
+  scrollTop();
 }
 
 function scrollTop() {
