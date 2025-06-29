@@ -4,6 +4,11 @@ import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
 const mock = Deno.env.get("oauthClientId") ? false : true;
 
+console.log("Spotify OAuth config:");
+console.log("callbackURL:", Deno.env.get("callbackURL"));
+console.log("oauthClientId present:", !!Deno.env.get("oauthClientId"));
+
+
 export default defineConfig({
   plugins: [
     spotifyOauth(
