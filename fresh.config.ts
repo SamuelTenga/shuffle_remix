@@ -1,5 +1,5 @@
 import { defineConfig } from "$fresh/server.ts";
-import spotifyOauth from "https://raw.githubusercontent.com/RoeHH/fresh_oauth2/a941ece2853f44069a4cb366778acd57/providers/spotify.ts";
+import spotifyOauth from "https://raw.githubusercontent.com/RoeHH/fresh_oauth2/21c31455a31691a837ebe09fb91ac5f96d2de38d/providers/spotify.ts";
 import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
 const mock = Deno.env.get("oauthClientId") ? false : true;
