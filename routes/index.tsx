@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { getCookie } from "$std/http/cookie.ts";
+import { getCookies } from "$std/http/cookie.ts";
 import { getSavedTracks } from "../utils/spotify.ts";
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
 
 export const handler: Handlers<Props> = {
   async GET(req, ctx) {
-    const token = getCookie(req.headers, "spotify_token");
+    const cookies = getCookies(req.headers);
+    const token = cookies.spotify_token;
 
     if (!token) {
       return ctx.render({ count: 0, tracks: [], isLoggedIn: false });
