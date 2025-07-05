@@ -13,20 +13,28 @@ interface State {
 
 export const handler: Handlers<Props, State> = {
   async GET(_req, ctx) {
+    if (!ctx.state.user) {
+      return ctx.render({ count: 0, tracks: [] });
+    }
 
-    const tracks = await getSavedTracks(ctx.state.user ? ctx.state.user.accessToken || "" : "");
+    const tracks = await getSavedTracks(ctx.state.user.accessToken || "");
 
-    
     //addTrackIfNotAlreadyQueuedAsFirst(ctx.state.user.accessToken || "", tracks[0].track.uri);
-    
 
-    return ctx.render({count: tracks.length, tracks: tracks});
+    return ctx.render({ count: tracks.length, tracks: tracks });
   },
 };
 
 
 
-export default function Home({data}: PageProps<Props>) {
+export default function Home({data, state}: PageProps<Props, State>) {
+  if (!state.user) {
+    return (
+      <div>
+        <a href="/oauth2/signin">Login with Spotify</a>
+      </div>
+    )
+  }
   return (
     <>
     <div class="flex">
