@@ -1,58 +1,58 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { addTrackIfNotAlreadyQueuedAsFirst, getSavedTracks } from "../utils/spotify.ts";
-import { User } from "https://raw.githubusercontent.com/RoeHH/fresh_oauth2/21c31455a31691a837ebe09fb91ac5f96d2de38d/oauth2Plugin.d.ts";
+import { getCookie } from "$std/http/cookie.ts";
+import { getSavedTracks } from "../utils/spotify.ts";
 
 interface Props {
   count: number;
   tracks: any;
+  isLoggedIn: boolean;
 }
 
-interface State {
-  user: User | undefined;
-}
+export const handler: Handlers<Props> = {
+  async GET(req, ctx) {
+    const token = getCookie(req.headers, "spotify_token");
 
-export const handler: Handlers<Props, State> = {
-  async GET(_req, ctx) {
-    if (!ctx.state.user) {
-      return ctx.render({ count: 0, tracks: [] });
+    if (!token) {
+      return ctx.render({ count: 0, tracks: [], isLoggedIn: false });
     }
 
-    const tracks = await getSavedTracks(ctx.state.user.accessToken || "");
+    const tracks = await getSavedTracks(token);
 
-    //addTrackIfNotAlreadyQueuedAsFirst(ctx.state.user.accessToken || "", tracks[0].track.uri);
-
-    return ctx.render({ count: tracks.length, tracks: tracks });
+    return ctx.render({ count: tracks.length, tracks: tracks, isLoggedIn: true });
   },
 };
 
-
-
-export default function Home({data, state}: PageProps<Props, State>) {
-  if (!state.user) {
+export default function Home({ data }: PageProps<Props>) {
+  if (!data.isLoggedIn) {
     return (
       <div>
-        <a href="/oauth2/signin">Login with Spotify</a>
+        <a href="/oauth/signin">Login with Spotify</a>
       </div>
-    )
+    );
   }
   return (
     <>
-    <div class="flex">
+      <div class="flex">
         <div id="grid" class="grid" data-track-count={data.count}>
-          {data.tracks.map((track: any) => (<img id={track.track.uri} class="track-cover" src={track.track.album.images[1].url} alt={track.track.name} /> ))}
+          {data.tracks.map((track: any) => (
+            <img
+              id={track.track.uri}
+              class="track-cover"
+              src={track.track.album.images[1].url}
+              alt={track.track.name}
+            />
+          ))}
         </div>
-    </div>
-    <svg id="mask-svg" width="10000" height="10000">
-      <defs>
-        <mask id="mask">
-          <rect id="mask-rect" width="10000" height="10000" fill="white" />
-          <circle id="mask-circle" cx="5000" cy="5000" r="100" fill="black" />
-        </mask>
-      </defs>
-    </svg>
-    <script src="/script.js">
-    </script>
+      </div>
+      <svg id="mask-svg" width="10000" height="10000">
+        <defs>
+          <mask id="mask">
+            <rect id="mask-rect" width="10000" height="10000" fill="white" />
+            <circle id="mask-circle" cx="5000" cy="5000" r="100" fill="black" />
+          </mask>
+        </defs>
+      </svg>
+      <script src="/script.js"></script>
     </>
   );
 }
-
